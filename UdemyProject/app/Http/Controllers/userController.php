@@ -46,7 +46,8 @@ class userController extends Controller
 
                 //Validacion pasada Correctamente
                 //Cifrar Contraseña
-                $hashPass=password_hash($params->password, PASSWORD_BCRYPT, ['cost' => 4]);//Proceso del cifrado de la contraseña, el cost define cuantas veces se cifraa si misma
+                // $hashPass=password_hash($params->password, PASSWORD_BCRYPT, ['cost' => 4]);//Proceso del cifrado de la contraseña, el cost define cuantas veces se cifraa si misma
+                $hashPass = hash('sha256', $params->password);
                 //Crear usuario
                 $user = new User();
                 $user->name = $params_array['name'];
@@ -87,9 +88,18 @@ class userController extends Controller
         return response()->json($data, $data['code']);
     }
 
+
+    
     public function login(Request $request){
         $jwtAuth = new \JwtAuth();
 
-        return $jwtAuth->signUp();
+        $email = 'NicLux404@gmail.com';
+        $password = '461958Ndet.';
+        $hashPass = hash('sha256', $password);
+
+        // dd($hashPass);die;
+
+        return $jwtAuth->signUp($email, $hashPass);
+        // return response()->json($jwtAuth->signUp($email, $hashPass, true));
     }
 }
