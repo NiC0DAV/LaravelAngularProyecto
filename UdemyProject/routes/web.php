@@ -40,5 +40,7 @@ Route::get('/test-orm', '\App\Http\Controllers\pruebasController@testORM');
     //Rutas del controlador de usuarios
     Route::post('/api/register', 'App\Http\Controllers\userController@register');
     Route::post('/api/login', 'App\Http\Controllers\userController@login');
+    Route::put('/api/user/update', 'App\Http\Controllers\userController@update');
+    Route::post('/api/user/upload', 'App\Http\Controllers\userController@upload');
 
 

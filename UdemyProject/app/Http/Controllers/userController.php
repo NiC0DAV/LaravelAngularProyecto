@@ -129,4 +129,72 @@ class userController extends Controller
         // return $jwtAuth->signUp($email, $hashPass);
         return response()->json($signUp, 200);
     }
+
+    public function update(Request $request){
+        // Comprobar si el usuario Esta Identificado
+        $token = $request->header('Authorization');
+        $jwtAuth = new \JwtAuth();
+        $checkToken = $jwtAuth->checkToken($token);
+
+
+         //Recoger los datos por post
+        $json = $request->input('json', null);
+        $params_array = json_decode($json, true);
+        if ($checkToken && !empty($params_array)){
+            // Actualizar Usuario
+
+                
+                //Sacar usuario identificado
+                $user = $jwtAuth->checkToken($token, true);
+                // dd($user);
+                // die();
+
+                // Validar datos
+                $validate = \Validator::make($params_array, [
+                    'name' => ['required','alpha'],
+                    'surname' => ['required', 'alpha'],
+                    'email' => ['required', 'email', 'unique:users'.$user->sub]//Validar existencia del usuario
+                ]);//sub es id
+
+                //Quitar campos que no quiero actualizar
+                unset($params_array['id']);
+                unset($params_array['role']);
+                unset($params_array['password']);
+                unset($params_array['created_at']);
+                unset($params_array['remember_token']);
+
+                //Actualizar usuario en BD
+                $user_update = User::where('id', $user->sub)->update($params_array);
+
+                //Devolver array con resultado
+                $data = array(
+                    'code' => 200,
+                    'status' => 'Success',
+                    'user' => $user,
+                    'changes' => $params_array
+                );
+
+
+        }else{
+            $data = array(
+                'code' => 400,
+                'status' => 'Error',
+                'message' => 'El usuario no esta identificado'
+            );
+        }
+
+        return response()->json($data, $data['code']);
+
+    }
+
+    public function upload(Request $request){
+
+        $data = array(
+            'code' => 400,
+            'status' => 'Error',
+            'message' => 'El usuario no se ha identificado'
+        );
+
+        return reponse($data, $data['code'])->header('content-type', 'text/plain');
+    }
 }
