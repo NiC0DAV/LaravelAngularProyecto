@@ -195,6 +195,6 @@ class userController extends Controller
             'message' => 'El usuario no se ha identificado'
         );
 
-        return reponse($data, $data['code'])->header('content-type', 'text/plain');
+        return response($data, $data['code'])->header('content-type', 'text/plain');
     }
 }
