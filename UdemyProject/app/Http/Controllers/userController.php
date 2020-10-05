@@ -11,6 +11,8 @@ class userController extends Controller
         return "Accion de pruebas de userController";
     }
 
+
+
     public function register(Request $request){
 
         //Recoger los datos del usuario por post
@@ -90,16 +92,41 @@ class userController extends Controller
 
 
     
+
     public function login(Request $request){
         $jwtAuth = new \JwtAuth();
 
-        $email = 'NicLux404@gmail.com';
-        $password = '461958Ndet.';
-        $hashPass = hash('sha256', $password);
+        //Recibir el POST
+        $json = $request->input('json', null);
+        $params = json_decode($json);
+        $params_array= json_decode($json, true);
 
+        //Validar datos
+        $validate = \Validator::make($params_array,[
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+        
+        if($validate->fails()){
+            $signUp = array(
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'El usuario no se ha podido identificar',
+                'errors' => $validate->errors()
+            );
+        }else{
+            //Cifrar Contraseña
+            $hashPass = hash('sha256', $params->password);
+
+            //Devolver Token o datos
+            $signUp = $jwtAuth->signUp($params->email, $hashPass);
+
+            if(!empty($params->getToken)){
+                $signUp = $jwtAuth->signUp($params->email, $hashPass, true); 
+            }
+        }
         // dd($hashPass);die;
-
-        return $jwtAuth->signUp($email, $hashPass);
-        // return response()->json($jwtAuth->signUp($email, $hashPass, true));
+        // return $jwtAuth->signUp($email, $hashPass);
+        return response()->json($signUp, 200);
     }
 }
