@@ -185,8 +185,22 @@ class userController extends Controller
         //Recoger los datos de la peticion (fichero)
         $image = $request->file('file0');
 
+        //Validacion imagen
+        $validate = \Validator::make($request->all(),[
+            'file0' => ['required', 'image', 'mimes:jpg,jpeg,png,gif']
+        ]);
+
+
         //Subir y Guardar imagen
-        if($image){
+        if(!$image || $validate->fails()){
+            
+            $data = array(
+                'code' => 400,
+                'status' => 'Error',
+                'message' => 'Error al subir la imagen'
+            );
+        }else{
+            //Devolver el resultado
             $image_name = time().$image->getClientOriginalName();
             \Storage::disk('users')->put($image_name, \File::get($image));
 
@@ -195,13 +209,6 @@ class userController extends Controller
                 'code' => 200,
                 'status' => 'success',
                 'image' => $image_name
-            );
-        }else{
-            //Devolver el resultado
-            $data = array(
-                'code' => 400,
-                'status' => 'Error',
-                'message' => 'Error al subir la imagen'
             );
         }
 
