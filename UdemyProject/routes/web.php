@@ -47,3 +47,6 @@ Route::get('/test-orm', '\App\Http\Controllers\pruebasController@testORM');
     Route::post('/api/user/upload', 'App\Http\Controllers\userController@upload')->middleware(App\Http\Middleware\ApiAuthMiddleware::class);
     Route::get('/api/user/avatar/{filename}', 'App\Http\Controllers\userController@getImage');
     Route::get('/api/user/detail/{id}', 'App\Http\Controllers\userController@detail');
+
+    //Rutas del controlador de categorias
+    Route::resource('/api/category', 'App\Http\Controllers\categoryController');//En cmd php artisan route:list gracias al resource ya nos dice el nombre de los metodos
