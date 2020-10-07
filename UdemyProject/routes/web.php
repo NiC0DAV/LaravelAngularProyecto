@@ -45,3 +45,4 @@ Route::get('/test-orm', '\App\Http\Controllers\pruebasController@testORM');
     Route::post('/api/login', 'App\Http\Controllers\userController@login');
     Route::put('/api/user/update', 'App\Http\Controllers\userController@update');
     Route::post('/api/user/upload', 'App\Http\Controllers\userController@upload')->middleware(App\Http\Middleware\ApiAuthMiddleware::class);
+    Route::get('/api/user/avatar/{filename}', 'App\Http\Controllers\userController@getImage');
