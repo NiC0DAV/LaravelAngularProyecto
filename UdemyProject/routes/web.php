@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Cargar Clases
+use App\Http\Middleware\ApiAuthMiddleware;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,4 +44,4 @@ Route::get('/test-orm', '\App\Http\Controllers\pruebasController@testORM');
     Route::post('/api/register', 'App\Http\Controllers\userController@register');
     Route::post('/api/login', 'App\Http\Controllers\userController@login');
     Route::put('/api/user/update', 'App\Http\Controllers\userController@update');
-    Route::post('/api/user/upload', 'App\Http\Controllers\userController@upload');
+    Route::post('/api/user/upload', 'App\Http\Controllers\userController@upload')->middleware(App\Http\Middleware\ApiAuthMiddleware::class);
