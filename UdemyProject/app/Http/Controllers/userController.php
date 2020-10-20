@@ -132,6 +132,9 @@ class userController extends Controller
     }
 
     public function update(Request $request){
+        $token = $request->header('Authorization');
+        $jwtAuth = new \JwtAuth();
+        $checkToken = $jwtAuth->checkToken($token);
         //Recoger los datos por post
         $json = $request->input('json', null);
         $params_array = json_decode($json, true);

@@ -50,3 +50,6 @@ Route::get('/test-orm', '\App\Http\Controllers\pruebasController@testORM');
 
     //Rutas del controlador de categorias
     Route::resource('/api/category', 'App\Http\Controllers\categoryController');//En cmd php artisan route:list gracias al resource ya nos dice el nombre de los metodos
+
+    //Rutas del controlador de entradas (posts)
+    Route::resource('api/post', 'App\Http\Controllers\postController');
