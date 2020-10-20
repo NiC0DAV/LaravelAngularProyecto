@@ -133,14 +133,15 @@ class postController extends Controller
                 unset($params_array['user']);
 
                 //Actualizar el registro en concreto
-                $post = Post::where('id', $id)->update($params_array);
+                $post = Post::where('id', $id)->updateOrCreate($params_array);
 
                 //Devolver respuesta
 
                 $data = [
                     'code' => 200,
                     'status' => 'Success',
-                    'post' => $post
+                    'post' => $post,
+                    'changes'=>$params_array
                 ];
             }
 
@@ -154,4 +155,37 @@ class postController extends Controller
 
         return response()->json($data, $data['code']);
     }
+
+    public function destroy($id, Request $request){
+        // Conseguir usuario identificado
+        $jwtAuth = new JwtAuth();
+        $token = $request->header('Authorization', null);
+        $user = $jwtAuth->checkToken($token, true); 
+
+        // Comprobar si existe el registro
+        $post = Post::where('id', $id)
+                        ->where('user_id', $user->sub)
+                        ->first();
+
+        if(!empty($post)){
+                    //Borrarlo
+        $post->delete();
+
+        //Devolver una respuesta
+        $data=[
+            'code' => 200,
+            'status' => 'success',
+            'post' => $post
+        ];
+        }else{
+            $data=[
+                'code' => 400,
+                'status' => 'Error',
+                'message' => 'The post to be deleted does not exists'
+            ];
+        }
+
+
+        return response()->json($data, $data['code']);
+    }   
 }
