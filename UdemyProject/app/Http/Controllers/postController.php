@@ -10,7 +10,11 @@ use App\Helpers\JwtAuth;
 class postController extends Controller
 {
     public function __construct(){
-        $this->middleware('api.auth', ['except' => ['index', 'show', 'getImage']]); 
+        $this->middleware('api.auth', ['except' => ['index', 
+                                                    'show', 
+                                                    'getImage', 
+                                                    'getPostsByCategory', 
+                                                    'getPostsByUser']]); 
     }
 
     public function index(){
@@ -264,6 +268,24 @@ class postController extends Controller
         // Mostrar el Error
         return response()->json($data, $data['code']);
         
+    }
+
+    public function getPostsByCategory($id){
+        $post = Post::where('category_id', $id)->get();
+
+        return response()->json([
+            'status' => 'Success',
+            'posts' => $post
+        ],200);
+    }
+
+    public function getPostsByUser($id){
+        $post = Post::where('user_id', $id)->get();
+
+        return response()->json([
+            'status' => 'Success',
+            'posts' => $post
+        ],200);
     }
 
 }
