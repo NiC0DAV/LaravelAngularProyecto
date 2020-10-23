@@ -10,7 +10,7 @@ use App\Helpers\JwtAuth;
 class postController extends Controller
 {
     public function __construct(){
-        $this->middleware('api.auth', ['except' => ['index', 'show']]); 
+        $this->middleware('api.auth', ['except' => ['index', 'show', 'getImage']]); 
     }
 
     public function index(){
@@ -242,4 +242,28 @@ class postController extends Controller
         // Devolver Datos
         return response()->json($data, $data['code']);
     }
+
+    public function getImage($fileName){
+        // Comprobar si existe el fichero
+        $isset = \Storage::disk('images')->exists($fileName);
+
+        if($isset){
+            // Conseguir la imagen
+            $file = \Storage::disk('images')->get($fileName);
+
+            // Devolver la imagen 
+            return new Response($file, 200);
+        }else{
+            $data = [
+                'code' => 404,
+                'Status' => 'Error',
+                'Message' => 'The image does not exists'
+            ];
+        }
+
+        // Mostrar el Error
+        return response()->json($data, $data['code']);
+        
+    }
+
 }
