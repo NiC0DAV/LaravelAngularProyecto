@@ -53,3 +53,4 @@ Route::get('/test-orm', '\App\Http\Controllers\pruebasController@testORM');
 
     //Rutas del controlador de entradas (posts)
     Route::resource('api/post', 'App\Http\Controllers\postController');
+    Route::post('/api/post/upload', 'App\Http\Controllers\postController@upload');

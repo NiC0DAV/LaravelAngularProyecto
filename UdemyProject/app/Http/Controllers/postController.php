@@ -211,4 +211,35 @@ class postController extends Controller
 
         return $user;
     }
+
+    public function upload(Request $request){
+        // Recoger la imagen de la peticion
+         $image = $request->file('file0');
+
+        // Validar Imgen
+        $validate = \Validator::make($request->all(),[
+            'file0' => ['required', 'image', 'mimes:jpg,jpeg,png,gif']
+        ]);
+        
+        // Guardar imagen 
+        if(!$image || $validate->fails()){
+            $data=[
+                'code' => 400,
+                'status' => 'Error',
+                'message' => 'Error uploading the image'
+            ];
+        }else{
+            $imageName = time().$image->getClientOriginalName();
+
+            \Storage::disk('images')->put($imageName, \File::get($image));
+            $data=[
+                'code' => 200,
+                'status' => 'Success',
+                'image' => $imageName
+            ];
+        }
+
+        // Devolver Datos
+        return response()->json($data, $data['code']);
+    }
 }
