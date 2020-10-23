@@ -11,6 +11,10 @@ class Post extends Model
 
     protected $table = 'posts';
 
+    protected $fillable = [
+        'title','content','category_id','image'
+    ];
+
     //Relacion de muchos a uno
     public function user(){
         return $this->belongsTo('App\Models\User', 'user_id');//Trae objetos de  usuario relacionados por el user id
