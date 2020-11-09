@@ -31,8 +31,8 @@ class userController extends Controller
         if(!empty($params_array) && !empty($params)){
 
             $validate = \Validator::make($params_array,[//Se especifican las reglas de validacion del validator
-                'name' => ['required','alpha'],
-                'surname' => ['required', 'alpha'],
+                'name' => ['required'],
+                'surname' => ['required'],
                 'email' => ['required', 'email', 'unique:users'],//Validar existencia del usuario
                 'password' => ['required']
             ]);

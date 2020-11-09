@@ -5,8 +5,14 @@
         </div>
         <div class="card-body">
         <!-- Formulario de registro -->
-            <div class="card-title">
+            <div class="card-title" *ngIf="status != 'Success'">
                 <h5>Registrate en nuestra plataforma para crear tus propios posts y mucho más!!</h5> 
+            </div>
+            <div class="alert alert-success" *ngIf="status == 'Success'">
+                <p>El registro se ha completado correctamente <a [routerLink]="['/login']">Inicia Sesión</a></p>
+            </div>
+            <div class="alert alert-danger" *ngIf="status == 'Error'">
+                <p>El registro no se ha completado correctamente</p>
             </div>
             <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
                 <div class="form-group">
