@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
 @Component({
@@ -16,12 +17,15 @@ export class LoginComponent implements OnInit {
   public token;
   public identity;
 
-  constructor(private _userService:UserService) { 
+  constructor(private _userService:UserService, private _router: Router, private _route: ActivatedRoute ) { 
     this.page_title = 'Identificate';
     this.user = new User(1, '', '', 'ROLE_USER', '', '' , '', '');  
   }
 
   ngOnInit(): void {
+    // Se ejecuta iempre que se cargue el componente y se carga cuando 
+    // llegue sure en la url
+    this.logOut();
   }
 
   onSubmit(form){
@@ -32,7 +36,7 @@ export class LoginComponent implements OnInit {
           this.status = 'Success';
           this.token = response;
 
-        //Objeto de usuario identificado
+          //Objeto de usuario identificado
           this._userService.login(this.user, true).subscribe(
             response => {
               this.identity = response;
@@ -41,6 +45,8 @@ export class LoginComponent implements OnInit {
               console.log(this.identity);
               localStorage.setItem('token', this.token);
               localStorage.setItem('identity', JSON.stringify(this.identity));
+              
+              this._router.navigate(['inicio']);
             }, 
             error => {
               this.status = 'Error'
@@ -53,9 +59,27 @@ export class LoginComponent implements OnInit {
         }
       }, 
       error => {
-        this.status = 'Error'
+        this.status = 'Error' 
         console.log(<any>error)
       }
     )
+  }
+
+  logOut(){
+    this._route.params.subscribe(params=>{
+        let logout = +params['sure'];
+
+        if(logout == 1){
+          localStorage.removeItem('identity');
+          localStorage.removeItem('token');
+          
+          this.identity = null;
+          this.token = null;
+
+          // Redireccion a inicio
+          this._router.navigate(['inicio']);
+
+        }
+    });
   }
 }

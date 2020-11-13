@@ -15,7 +15,7 @@
         </li>
       </ul>
 
-      <ul class="navbar-nav navbar-right">
+      <ul class="navbar-nav navbar-right" *ngIf="!identity || identity.status == 'Error'">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/login']">LogIn</a>
         </li>
@@ -28,10 +28,10 @@
         <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
         <!-- <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button> -->
       <!-- </form> -->
-      <ul class="navbar-nav navbar-right">
+      <ul class="navbar-nav navbar-right" *ngIf="identity && identity.name">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Nombre Usuario
+            {{identity.name+' '+identity.surname}}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Crear Post</a>
@@ -42,7 +42,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Cerrar Sesión</a>
+          <a class="nav-link disabled" tabindex="-1" aria-disabled="true" [routerLink]="['/logout/1']">Cerrar Sesión</a>
         </li>
       </ul>
     </div>
