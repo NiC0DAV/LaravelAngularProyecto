@@ -110,7 +110,7 @@ class userController extends Controller
         
         if($validate->fails()){
             $signUp = array(
-                'status' => 'error',
+                'status' => 'Error',
                 'code' => 404,
                 'message' => 'El usuario no se ha podido identificar',
                 'errors' => $validate->errors()
