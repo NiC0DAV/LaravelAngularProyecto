@@ -1,0 +1,55 @@
+<div class="col-md-10 mx-auto mt-3">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="mt-5">{{page_title}}</h1>
+        </div>
+        <div class="card-body">
+        <!-- Formulario de registro -->
+            <div class="card-title" *ngIf="status != 'Success'">
+                <h5>Modifica tus datos</h5> 
+            </div>
+            <hr>
+            <!-- <div class="alert alert-success" *ngIf="status == 'Success'">
+                <p>El registro se ha completado correctamente <a [routerLink]="['/login']">Inicia Sesión</a></p>
+            </div>
+            <div class="alert alert-danger" *ngIf="status == 'Error'">
+                <p>El registro no se ha completado correctamente</p>
+            </div> -->
+            <!-- Formulario de ajustes -->
+            <form #userEditForm="ngForm" (ngSubmit)="onSubmit(userEditForm)">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                        <input id="name" class="form-control" type="text" name="name" #name="ngModel" [(ngModel)]="user.name" required pattern="[a-z A-Z]+">
+                        <small class="invalid-feedback d-block" *ngIf="!name.valid && name.touched">
+                            El nombre no es valido
+                        </small>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Apellidos</label>
+                        <input id="surname" class="form-control" type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" required pattern="[a-z A-Z]+">
+                        <small class="invalid-feedback d-block" *ngIf="!surname.valid && surname.touched">
+                            El apellido ingresado no es valido
+                        </small>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                        <input id="email" class="form-control" type="email" name="email" #email="ngModel" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                        <small class="invalid-feedback d-block" *ngIf="!email.valid && email.touched">
+                            El correo ingresado no es valido
+                        </small>
+                </div>
+                <div class="form-group">
+                    <label for="description">Cuentanos un poco de tí</label>
+                    <textarea id="description" class="form-control" rows="3" #description="ngModel" [(ngModel)]="user.description" [ngModelOptions]="{standalone: true}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Avatar</label>
+                    <input id="image" class="form-control" type="file" name="image">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-success btn-block" type="submit"  value="Guardar Ajustes" [disabled]="userEditForm.invalid">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

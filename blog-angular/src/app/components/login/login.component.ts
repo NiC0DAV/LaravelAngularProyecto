@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   public status: string;
   public token;
   public identity;
+  public errorMessage: string;
+  public successMessage: string;
 
   constructor(private _userService:UserService, private _router: Router, private _route: ActivatedRoute ) { 
     this.page_title = 'Identificate';
@@ -32,7 +34,7 @@ export class LoginComponent implements OnInit {
     this._userService.login(this.user).subscribe(
       response => {
         //devuelve token
-        if(status != 'Error'){
+        if(response.status != 'Error'){
           this.status = 'Success';
           this.token = response;
 
@@ -56,6 +58,7 @@ export class LoginComponent implements OnInit {
 
         }else{
           this.status = 'Error';
+          this.errorMessage = 'Intento de inicio de sesion incorrecto';
         }
       }, 
       error => {
