@@ -48,7 +48,13 @@
                 <hr>
                 <div class="form-group">
                     <label for="image">Avatar</label>
-                    <input id="image" class="form-control" type="file" name="image">
+                    <div *ngIf="identity.image">
+                        <img class="rounded" style="max-width: 150px;" src="{{url+'user/avatar/'+identity.image}}">
+                    </div>
+                    <br>
+                    <angular-file-uploader [config]="afuConfig"  
+                                            (ApiResponse)="avatarUpload($event)">
+                    </angular-file-uploader>
                 </div>
                 <hr>
                 <div class="form-group">
