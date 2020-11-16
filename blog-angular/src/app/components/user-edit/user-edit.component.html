@@ -9,12 +9,12 @@
                 <h5>Modifica tus datos</h5> 
             </div>
             <hr>
-            <!-- <div class="alert alert-success" *ngIf="status == 'Success'">
-                <p>El registro se ha completado correctamente <a [routerLink]="['/login']">Inicia Sesión</a></p>
+            <div class="alert alert-success" *ngIf="status == 'Success'">
+                <p>Los datos se han guardado correctamente. <a [routerLink]="['/inicio']">Volver al inicio</a></p>
             </div>
             <div class="alert alert-danger" *ngIf="status == 'Error'">
-                <p>El registro no se ha completado correctamente</p>
-            </div> -->
+                <p>Los datos no han sido guardados</p>
+            </div>
             <!-- Formulario de ajustes -->
             <form #userEditForm="ngForm" (ngSubmit)="onSubmit(userEditForm)">
                 <div class="form-group">
@@ -24,6 +24,7 @@
                             El nombre no es valido
                         </small>
                 </div>
+                <hr>
                 <div class="form-group">
                     <label for="surname">Apellidos</label>
                         <input id="surname" class="form-control" type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" required pattern="[a-z A-Z]+">
@@ -31,6 +32,7 @@
                             El apellido ingresado no es valido
                         </small>
                 </div>
+                <hr>
                 <div class="form-group">
                     <label for="email">Email</label>
                         <input id="email" class="form-control" type="email" name="email" #email="ngModel" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
@@ -38,14 +40,17 @@
                             El correo ingresado no es valido
                         </small>
                 </div>
+                <hr>
                 <div class="form-group">
-                    <label for="description">Cuentanos un poco de tí</label>
-                    <textarea id="description" class="form-control" rows="3" #description="ngModel" [(ngModel)]="user.description" [ngModelOptions]="{standalone: true}"></textarea>
+                    <label for="description">Acerca de mi</label>
+                    <textarea id="description" class="form-control" rows="10" #description="ngModel" [(ngModel)]="user.description" [froalaEditor]="froala_options" name="description"></textarea>
                 </div>
+                <hr>
                 <div class="form-group">
                     <label for="image">Avatar</label>
                     <input id="image" class="form-control" type="file" name="image">
                 </div>
+                <hr>
                 <div class="form-group">
                     <input class="btn btn-success btn-block" type="submit"  value="Guardar Ajustes" [disabled]="userEditForm.invalid">
                 </div>

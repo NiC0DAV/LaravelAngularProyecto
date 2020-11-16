@@ -14,6 +14,13 @@ export class UserEditComponent implements OnInit {
   public identity;
   public token;
   public status;
+  public froala_options: Object = {
+    charCounterCount: true,
+    toolbarButtons: ['bold', 'italic', 'underline', 'paragraphFormat','alert','emoticonsSet'],
+    toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert','emoticonsSet'],
+    toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert','emoticonsSet'],
+    toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert','emoticonsSet'],
+  };
   constructor(private _userService: UserService) { 
     this.page_title = 'Ajustes de Usuario';
     this.user = new User(1, '', '', 'ROLE_USER', '', '' , '', ''); 
